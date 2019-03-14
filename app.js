@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer = require('multer');
 
+require('dotenv').config();
+
 const feedRoutes = require('./routes/feed');
 const authRoutes = require('./routes/auth');
 
@@ -59,9 +61,13 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: message, data: data });
 });
 
+const { MONGODB } = process.env;
+
 mongoose
   .connect(
-    'mongodb+srv://maximilian:9u4biljMQc4jjqbe@cluster0-ntrwp.mongodb.net/messages?retryWrites=true'
+    // 'mongodb+srv://maximilian:9u4biljMQc4jjqbe@cluster0-ntrwp.mongodb.net/messages?retryWrites=true'
+    MONGODB,
+    { useNewUrlParser: true }
   )
   .then(result => {
     app.listen(8080);
